@@ -1,9 +1,9 @@
 # 🌟 EduPhenikaa - Nền tảng Học trực tuyến 🌐
 
-> 🚀 **Một nền tảng học trực tuyến hiện đại, kết nối mọi người với giáo dục chất lượng cao từ khắp nơi trên thế giới!**
+> 🚀 **Một nền tảng học trực tuyến hiện đại, kết nối mọi người với giáo dục tốt khắp nơi trên thế giới!**
 
 ## 🎯 Sứ mệnh của chúng tôi  
-Trao quyền cho người học để đạt được mục tiêu thông qua việc tiếp cận giáo dục hàng đầu và chứng chỉ toàn cầu. 🌍  
+Trao quyền cho người học để đạt được mục tiêu qua việc tiếp cận giáo dục hàng đầu và chứng chỉ toàn cầu. 🌍  
 
 ---
 
