@@ -2,10 +2,6 @@
 
 > 🚀 **Một nền tảng học trực tuyến hiện đại, kết nối mọi người với giáo dục chất lượng cao từ khắp nơi trên thế giới!**
 
----
-
-![EduPhenikaa Banner](https://via.placeholder.com/800x200?text=EduPhenikaa+-+eLearning+Platform)
-
 ## 🎯 Sứ mệnh của chúng tôi  
 Trao quyền cho người học để đạt được mục tiêu thông qua việc tiếp cận giáo dục hàng đầu và chứng chỉ toàn cầu. 🌍  
 
