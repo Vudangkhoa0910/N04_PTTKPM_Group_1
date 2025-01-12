@@ -1,0 +1,83 @@
+.slick-slide > div {
+  display: flex;
+  justify-content: center; /* Căn giữa theo chiều ngang */
+}
+
+.slick-slide {
+  max-width: 300px; /* Giữ kích thước tối đa cố định */
+  margin: 0 auto;   /* Căn giữa phần tử */
+}
+
+.slick-list {
+  padding: 10px 0; /* Tạo khoảng trống nhỏ phía trên và dưới */
+}
+
+.slick-track {
+  display: flex;
+  align-items: center; /* Căn giữa phần tử theo chiều dọc */
+}
+
+
+.slick-prev {
+    position: absolute;
+    left: -60px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+    z-index: 1; 
+  }
+  
+  
+  
+  
+ 
+  .slick-next {
+    position: absolute;
+    right: -60px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+    z-index: 1; 
+  }
+  
+
+  .slick-prev:hover {
+  
+    color: #0056d2;
+  }
+  
+  .slick-next:hover {
+ 
+    color: #0056d2;
+  }
+
+
+  .slick-prev:before {
+    content: "🠸";
+    font-weight: 900;
+    font-size: 54px;
+    color:#0056d2 ;
+  }
+  .slick-next:before {
+    content: "🠺";
+    font-size: 54px;
+    font-weight: 900;
+    color:#0056d2 ;
+  }
+  
+  
