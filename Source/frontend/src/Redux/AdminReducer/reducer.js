@@ -57,21 +57,3 @@ export const reducer = (state = initState, { type, payload }) => {
       return state;
   }
 };
-
-const initialState = {
-  totalCourses: 0,
-  totalVideos: 0,
-  // Các trường khác...
-};
-
-const productReducer = (state = initialState, action) => {
-  switch (action.type) {
-    case GET_PRODUCT_TOTAL_SUCCESS:
-      return { ...state, totalCourses: action.payload };
-    case GET_VIDEO_TOTAL_SUCCESS:
-      return { ...state, totalVideos: action.payload };
-    // Các trường hợp khác...
-    default:
-      return state;
-  }
-};
