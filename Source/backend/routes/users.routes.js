@@ -281,6 +281,28 @@ userRouter.get("/Teachme/:userId", async (req, res) => {
   }
 });
 
+userRouter.patch("/:userId/promote", async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+    // Tìm kiếm và cập nhật vai trò của người dùng
+    const user = await UserModel.findByIdAndUpdate(
+      userId,
+      { role: "teacher" },
+      { new: true } // Trả về document sau khi cập nhật
+    );
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Trả về kết quả thành công
+    res.status(200).json({ message: "User promoted to teacher", user });
+  } catch (error) {
+    console.error("Error promoting user:", error.message);
+    res.status(500).json({ message: "Internal Server Error", error: error.message });
+  }
+});
 
 
 module.exports = {
