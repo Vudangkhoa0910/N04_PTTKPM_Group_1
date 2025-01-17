@@ -9,7 +9,7 @@ import {
   actionsingUpSuccess,
 } from "./actionType";
 
-let baseURL = "http://localhost:5000/";
+let baseURL = "http://localhost:5001/";
 
 export const loginFetch = (value) => (dispatch) => {
   dispatch(actionLoginLoading());
