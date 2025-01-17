@@ -46,7 +46,7 @@ const Login = () => {
   // will block the input element when click on backgrond
   function blockInput(event) {
     if (event.target === backgroundRef.current && !form.email) {
-    emailInput.current.style.display = "none";
+      emailInput.current.style.display = "none";
       emailbox.current.style.padding = "20px";
     }
     if (event.target === backgroundRef.current && !form.password) {
@@ -66,135 +66,133 @@ const Login = () => {
     }
   }
 
-
-
   // login function
   function handleLogin() {
     dispatch(loginFetch(form)).then((res) => {
-   const user = JSON.parse(localStorage.getItem('user'))
-      if(user?.message){
-        showToast({toast,message:'Login Successful',color:'green'})
+      const user = JSON.parse(localStorage.getItem("user"));
+      if (user?.message) {
+        showToast({ toast, message: "Login Successful", color: "green" });
         setForm({ email: "", password: "" });
-      }else{
-        showToast({toast,message:userStore?.isError,color:'red'})
+      } else {
+        showToast({ toast, message: userStore?.isError, color: "red" });
       }
-      
     });
   }
 
-
-  useEffect(()=>{
+  useEffect(() => {
     // if isAuth is true move to dashboard;
 
-  if (userStore.isAuth) {
-    if(userStore?.role==='user'){
-      navigate("/home");
-    }else if(userStore?.role === "admin"){
-      navigate("/admin/dashboard");
+    if (userStore.isAuth) {
+      if (userStore?.role === "user") {
+        navigate("/home");
+      } else if (userStore?.role === "admin") {
+        navigate("/admin/dashboard");
+      } else if (userStore?.role === "teacher") {
+        navigate("/TeacherDashboard");
+      }
     }
-    else if(userStore?.role==='teacher'){
-      navigate("/TeacherDashboard");
-    }
-  }
-  },[userStore?.isAuth,userStore?.role])
+  }, [userStore?.isAuth, userStore?.role]);
 
   return (
-    <Box pb='2rem'>
-      <Box>
-        <Navbar />
-      </Box>
-      <Box
-        display="flex"
-        justifyContent="center"
-        pt="100px"
-        onClick={blockInput}
-        ref={backgroundRef}
-      >
-        <Box w={{ base: "90%", sm: "80%", md: "40%", lg: "30%" }}>
-          <Box mt='15px'>
-            <Heading size="md">Log in to your elearning Account</Heading>
+    <Box pb="2rem" bg="#F9FAFB" minH="100vh">
+      <Navbar />
+      <Flex justify="center" align="center" pt="4rem">
+        <Box
+          w={{ base: "90%", sm: "80%", md: "40%", lg: "30%" }}
+          p="2.5rem"
+          bg="white"
+          borderRadius="md"
+          boxShadow="lg"
+        >
+          <Heading size="md" mb="1.5rem" textAlign="center">
+            Log in to your eLearning Account
+          </Heading>
+
+          {/* Email Input */}
+          <Box
+            border="1px solid #E0E0E0"
+            p="1.5rem"
+            borderRadius="md"
+            mb="1rem"
+            ref={emailbox}
+            onClick={showInput}
+            id="email"
+            _hover={{ borderColor: "#90CAF9" }}
+          >
+            <Text fontWeight="bold" fontSize="sm" color="gray.700">
+              Email
+            </Text>
+            <Input
+              display="none"
+              ref={emailInput}
+              border="none"
+              p="0px"
+              focusBorderColor="transparent"
+              _focus={{ outline: "none" }}
+              name="email"
+              value={form.email}
+              onChange={handleInput}
+            />
           </Box>
-          {/* 2nd box  */}
-          <Box mt="35px">
-            <Box
-              border="1px solid"
-              p="20px"
-              id="email"
-              m="5px 0"
-              onClick={showInput}
-              ref={emailbox}
-            >
-              <Box>
-                <Heading id="email" size="xs">
-                  Email
-                </Heading>
-              </Box>
-              <Box>
-                <Input
-                  display="none"
-                  ref={emailInput}
-                  border="none"
-                  p="0px"
-                  focusBorderColor="transparent"
-                  _focus={{ outline: "none" }}
-                  name="email"
-                  value={form.email}
-                  onChange={handleInput}
-                />
-              </Box>
-            </Box>
-            {/* password */}
-            <Box
-              border="1px solid"
-              p="20px"
-              id="password"
-              m="5px 0"
-              onClick={showInput}
-              ref={passwordbox}
-            >
-              <Box>
-                <Heading id="password" size="xs">
-                  Password
-                </Heading>
-              </Box>
-              <Box>
-                <Input
-                  type="password"
-                  display="none"
-                  ref={passwordInput}
-                  border="none"
-                  size="sm"
-                  focusBorderColor="transparent"
-                  _focus={{ outline: "none" }}
-                  name="password"
-                  value={form.password}
-                  onChange={handleInput}
-                />
-              </Box>
-            </Box>
-            <Box display='flex' m='1rem 0' fontSize='0.7rem'>
-              <Text >You don't have Account with us?</Text>
-              <Link to='/signup'><Text _hover={{}} fontWeight='500' ml='0.5rem' color='black'>SignUp</Text></Link>
-            </Box>
-            {/* button  */}
-            <Box mt="15px">
-              <Button
-                w="100%"
-                color="white"
-                bg="#0056D2"
-                _hover={{ background: "#1E88E5", color: "#CFD8DC" }}
-                borderRadius="0"
-                textAlign="center"
-                onClick={handleLogin}
+
+          {/* Password Input */}
+          <Box
+            border="1px solid #E0E0E0"
+            p="1.5rem"
+            borderRadius="md"
+            mb="1.5rem"
+            ref={passwordbox}
+            onClick={showInput}
+            id="password"
+            _hover={{ borderColor: "#90CAF9" }}
+          >
+            <Text fontWeight="bold" fontSize="sm" color="gray.700">
+              Password
+            </Text>
+            <Input
+              type="password"
+              display="none"
+              ref={passwordInput}
+              border="none"
+              size="sm"
+              focusBorderColor="transparent"
+              _focus={{ outline: "none" }}
+              name="password"
+              value={form.password}
+              onChange={handleInput}
+            />
+          </Box>
+
+          {/* Sign Up Link */}
+          <Flex justify="center" mb="1rem" fontSize="sm">
+            <Text>Don't have an account?</Text>
+            <Link to="/signup">
+              <Text
+                ml="0.5rem"
+                color="blue.600"
+                fontWeight="bold"
+                _hover={{ textDecoration: "underline" }}
               >
-                <Heading size="xs">
-                  {userStore.loading ? <Spinner color="white" /> : "Log in"}
-                </Heading>
-              </Button>
-            </Box>
-          </Box>
+                Sign Up
+              </Text>
+            </Link>
+          </Flex>
+
+          {/* Login Button */}
+          <Button
+            w="100%"
+            colorScheme="blue"
+            borderRadius="md"
+            p="1.5rem"
+            onClick={handleLogin}
+            isLoading={userStore.loading}
+            loadingText="Logging in"
+            _hover={{ bg: "blue.600" }}
+          >
+            Log in
+          </Button>
         </Box>
-      </Box>
+      </Flex>
     </Box>
   );
 };
