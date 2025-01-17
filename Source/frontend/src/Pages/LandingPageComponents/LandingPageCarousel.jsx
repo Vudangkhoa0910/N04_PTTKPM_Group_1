@@ -32,7 +32,7 @@ const LandingPageCarousel = ({ keyword }) => {
   
 
   useEffect(() => {
-    const url = "http://localhost:5000/courses/all";
+    const url = "http://localhost:5001/courses/all";
     setLoading(true);
 
     fetch(url)
