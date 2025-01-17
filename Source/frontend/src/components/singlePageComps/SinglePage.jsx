@@ -27,7 +27,7 @@ export default function SinglePage() {
   const userStore = useSelector((store) => store.UserReducer);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const vdo_url = `http://localhost:5000/videos/courseVideos/${id}`;
+  const vdo_url = `http://localhost:5001/videos/courseVideos/${id}`;
 
   const getSinglePageData = () => {
     const token = userStore?.token;
