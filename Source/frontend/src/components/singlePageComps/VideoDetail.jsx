@@ -38,7 +38,7 @@ export default function VideoDetail() {
 
   const getSinglePageData = () => {
     const token = userStore?.token;
-    fetch(`http://localhost:5000/videos/courseVideos/${courseId}`, {
+    fetch(`http://localhost:5001/videos/courseVideos/${courseId}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
