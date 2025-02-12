@@ -1,12 +1,19 @@
-import { Button, Flex, Image, Text } from "@chakra-ui/react";
+import { Button, Flex, Image, Text, useColorModeValue } from "@chakra-ui/react";
 import React from "react";
 import sectionImage from "../../asset/sectionImage.png";
 import { useNavigate } from "react-router-dom";
+
 const Section6 = () => {
   const navigate = useNavigate();
+
+  // Màu nền và màu chữ động theo chế độ sáng/tối
+  const bgColor = useColorModeValue("#ebf3ff", "#2D3748");
+  const textColor = useColorModeValue("black", "white");
+  const buttonColor = useColorModeValue("#FF9900", "#FFBB33"); // Màu nút cho chế độ sáng/tối
+
   return (
     <Flex
-      bgColor={"#ebf3ff"}
+      bgColor={bgColor} // Sử dụng màu nền động
       gap={{
         sm: "20px",
         md: "35px",
@@ -43,7 +50,6 @@ const Section6 = () => {
         justifyContent={{
           lg: "space-evenly",
         }}
-       
       >
         <Text
           fontSize={{
@@ -51,6 +57,7 @@ const Section6 = () => {
             md: "35px",
             lg: "45 px",
           }}
+          color={textColor} // Màu chữ động
         >
           Learner outcomes on <b style={{ color: "#FF9900" }}>EduPNK</b>
         </Text>
@@ -61,15 +68,16 @@ const Section6 = () => {
             md: "14px",
             lg: "16px",
           }}
+          color={textColor} // Màu chữ động
         >
           According to the latest findings from EduPNK's 2023 report,{" "}
           <span>
             <b>an impressive 87% of learners have reported tangible career benefits.</b>
           </span> These include promotions, enhanced job performance, successful job transitions, increased employability, and skill development. SRM's extensive curriculum and industry-recognized certifications have played a pivotal role in facilitating the professional growth of learners, equipping them to thrive in today's fiercely competitive job landscape."
         </Text>
-        <Flex mt='15px' >
+        <Flex mt='15px'>
           <Button
-            bgColor={"#FF9900"}
+            bgColor={buttonColor} // Màu nền của nút động theo chế độ sáng/tối
             _hover={{ backgroundColor: "#03357b" }}
             color={"white"}
             p={{

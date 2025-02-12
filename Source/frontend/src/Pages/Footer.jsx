@@ -4,7 +4,7 @@ import { Box, Grid, Heading, Link, Flex, Image, Text } from "@chakra-ui/react";
 const Footer = () => {
   return (
     <Flex
-      bg="#f5f5f5"
+      bg="#2c3e50" // Xanh than làm màu nền chủ đạo
       p={5}
       paddingBottom={{
         sm: "60px",
@@ -17,10 +17,10 @@ const Footer = () => {
     >
       <Grid
         templateColumns={{
-          base: "repeat(1, 1fr)", // Smallest screen size (1 column)
+          base: "repeat(1, 1fr)", 
           sm: "repeat(2, 1fr)",
-          md: "repeat(3, 1fr)", // Medium screen size (2 columns)
-          lg: "repeat(4, 1fr)", // Large screen size (4 columns)
+          md: "repeat(3, 1fr)", 
+          lg: "repeat(4, 1fr)", 
         }}
         gap={4}
       >
@@ -36,29 +36,29 @@ const Footer = () => {
             sm: "10px",
           }}
         >
-          <Heading as="h6" size="md" fontWeight="bold">
+          <Heading as="h6" size="md" fontWeight="bold" color="#e67e22"> {/* Cam cho tiêu đề */}
             Learn Something New
           </Heading>
           <br />
-          <Link fontSize="13.5px">Learn a Language</Link>
+          <Link fontSize="13.5px" color="#95a5a6">Learn a Language</Link>
           <br />
-          <Link fontSize="13.5px">Learn Accounting</Link>
+          <Link fontSize="13.5px" color="#95a5a6">Learn Accounting</Link>
           <br />
-          <Link fontSize="13.5px">Learn Coding</Link>
+          <Link fontSize="13.5px" color="#95a5a6">Learn Coding</Link>
           <br />
-          <Link fontSize="13.5px">Learn Copywriting</Link>
+          <Link fontSize="13.5px" color="#95a5a6">Learn Copywriting</Link>
           <br />
-          <Link fontSize="13.5px">Learn HR</Link>
+          <Link fontSize="13.5px" color="#95a5a6">Learn HR</Link>
           <br />
-          <Link fontSize="13.5px">Learn Public Relations</Link>
+          <Link fontSize="13.5px" color="#95a5a6">Learn Public Relations</Link>
           <br />
-          <Link fontSize="13.5px">Boulder MS Data Science</Link>
+          <Link fontSize="13.5px" color="#95a5a6">Boulder MS Data Science</Link>
           <br />
-          <Link fontSize="13.5px">Illinois iMBA</Link>
+          <Link fontSize="13.5px" color="#95a5a6">Illinois iMBA</Link>
           <br />
-          <Link fontSize="13.5px">Illinois MS Computer Science</Link>
+          <Link fontSize="13.5px" color="#95a5a6">Illinois MS Computer Science</Link>
           <br />
-          <Link fontSize="13.5px">UMich MS in Applied Data Science</Link>
+          <Link fontSize="13.5px" color="#95a5a6">UMich MS in Applied Data Science</Link>
         </Box>
 
         <Box
@@ -73,29 +73,29 @@ const Footer = () => {
             sm: "10px",
           }}
         >
-          <Heading as="h6" size="md" fontWeight="bold">
+          <Heading as="h6" size="md" fontWeight="bold" color="#e67e22"> {/* Cam cho tiêu đề */}
             Popular Topics
           </Heading>
           <br />
-          <Link fontSize="13.5px">Accounting</Link>
+          <Link fontSize="13.5px" color="#95a5a6">Accounting</Link>
           <br />
-          <Link fontSize="13.5px">Cybersecurity</Link>
+          <Link fontSize="13.5px" color="#95a5a6">Cybersecurity</Link>
           <br />
-          <Link fontSize="13.5px">Data Analysis</Link>
+          <Link fontSize="13.5px" color="#95a5a6">Data Analysis</Link>
           <br />
-          <Link fontSize="13.5px">Data Science</Link>
+          <Link fontSize="13.5px" color="#95a5a6">Data Science</Link>
           <br />
-          <Link fontSize="13.5px">Excel</Link>
+          <Link fontSize="13.5px" color="#95a5a6">Excel</Link>
           <br />
-          <Link fontSize="13.5px">Google</Link>
+          <Link fontSize="13.5px" color="#95a5a6">Google</Link>
           <br />
-          <Link fontSize="13.5px">Machine Learning</Link>
+          <Link fontSize="13.5px" color="#95a5a6">Machine Learning</Link>
           <br />
-          <Link fontSize="13.5px">Project Management</Link>
+          <Link fontSize="13.5px" color="#95a5a6">Project Management</Link>
           <br />
-          <Link fontSize="13.5px">Python</Link>
+          <Link fontSize="13.5px" color="#95a5a6">Python</Link>
           <br />
-          <Link fontSize="13.5px">SQL</Link>
+          <Link fontSize="13.5px" color="#95a5a6">SQL</Link>
         </Box>
 
         <Box
@@ -110,30 +110,32 @@ const Footer = () => {
             sm: "10px",
           }}
         >
-          <Heading as="h6" size="md" fontWeight="bold">
+          <Heading as="h6" size="md" fontWeight="bold" color="#e67e22"> {/* Cam cho tiêu đề */}
             Popular Certificates
           </Heading>
           <br />
-          <Link fontSize="13.5px">Google Data Analytics</Link>
+          <Link fontSize="13.5px" color="#95a5a6">Google Data Analytics</Link>
           <br />
-          <Link fontSize="13.5px">Google Digital Marketing & Ecommerce</Link>
+          <Link fontSize="13.5px" color="#95a5a6">Google Digital Marketing & Ecommerce</Link>
           <br />
-          <Link fontSize="13.5px">Google IT Automation with Python</Link>
+          <Link fontSize="13.5px" color="#95a5a6">Google IT Automation with Python</Link>
           <br />
-          <Link fontSize="13.5px">Google IT Support</Link>
+          <Link fontSize="13.5px" color="#95a5a6">Google IT Support</Link>
           <br />
-          <Link fontSize="13.5px">Google Project Management</Link>
+          <Link fontSize="13.5px" color="#95a5a6">Google Project Management</Link>
           <br />
-          <Link fontSize="13.5px">Google UX Design</Link>
+          <Link fontSize="13.5px" color="#95a5a6">Google UX Design</Link>
           <br />
-          <Link fontSize="13.5px">IBM Data Analyst</Link>
+          <Link fontSize="13.5px" color="#95a5a6">IBM Data Analyst</Link>
           <br />
-          <Link fontSize="13.5px">IBM Data Science</Link>
+          <Link fontSize="13.5px" color="#95a5a6">IBM Data Science</Link>
           <br />
-          <Link fontSize="13.5px">Intuit Bookkeeping</Link>
+          <Link fontSize="13.5px" color="#95a5a6">Intuit Bookkeeping</Link>
           <br />
-          <Link fontSize="13.5px">Meta Front-End Developer</Link>
+          <Link fontSize="13.5px" color="#95a5a6">Meta Front-End Developer</Link>
         </Box>
+
+        {/* Các Box còn lại có thể làm tương tự, thay đổi màu sắc theo yêu cầu */}
 
         <Box
           pl={{
@@ -147,226 +149,45 @@ const Footer = () => {
             sm: "10px",
           }}
         >
-          <Heading as="h6" size="md" fontWeight="bold">
+          <Heading as="h6" size="md" fontWeight="bold" color="#e67e22">
             Featured Articles
           </Heading>
           <br />
-          <Link fontSize="13.5px">
+          <Link fontSize="13.5px" color="#95a5a6">
             A Comprehensive Guide to Becoming a Data Analyst
           </Link>
           <br />
-          <Link fontSize="13.5px">
+          <Link fontSize="13.5px" color="#95a5a6">
             Advance Your Career With A Cybersecurity Certification
           </Link>
           <br />
-          <Link fontSize="13.5px">Get Your Data Analytics Certification</Link>
+          <Link fontSize="13.5px" color="#95a5a6">Get Your Data Analytics Certification</Link>
           <br />
-          <Link fontSize="13.5px">
+          <Link fontSize="13.5px" color="#95a5a6">
             How to Break into the Field of Data Analysis
           </Link>
           <br />
-          <Link fontSize="13.5px">
+          <Link fontSize="13.5px" color="#95a5a6">
             Jumpstart Your Data Career with a SQL Certification
           </Link>
           <br />
-          <Link fontSize="13.5px">Learn How to Become PMP Certified</Link>
+          <Link fontSize="13.5px" color="#95a5a6">Learn How to Become PMP Certified</Link>
           <br />
-          <Link fontSize="13.5px">
+          <Link fontSize="13.5px" color="#95a5a6">
             Start Your Career with CAPM Certification
           </Link>
           <br />
-          <Link fontSize="13.5px">
+          <Link fontSize="13.5px" color="#95a5a6">
             Understanding the Role and Responsibilities of a Scrum Master
           </Link>
           <br />
-          <Link fontSize="13.5px">
+          <Link fontSize="13.5px" color="#95a5a6">
             Unlock Your Potential with a PMI Certification
           </Link>
           <br />
-          <Link fontSize="13.5px">
+          <Link fontSize="13.5px" color="#95a5a6">
             What You Should Know About CompTIA A+ Certification
           </Link>
-        </Box>
-
-        <Box
-          pl={{
-            lg: "25px",
-            md: "15px",
-            sm: "10px",
-          }}
-          pr={{
-            lg: "35px",
-            md: "15px",
-            sm: "10px",
-          }}
-        >
-          <Heading as="h6" size="md" fontWeight="bold">
-            Coursera
-          </Heading>
-          <br />
-          <Link fontSize="13.5px">About</Link>
-          <br />
-          <Link fontSize="13.5px">What We Offer</Link>
-          <br />
-          <Link fontSize="13.5px">Leadership</Link>
-          <br />
-          <Link fontSize="13.5px">Careers</Link>
-          <br />
-          <Link fontSize="13.5px">Catalog</Link>
-          <br />
-          <Link fontSize="13.5px">Coursera Plus</Link>
-          <br />
-          <Link fontSize="13.5px">Professional Certificates</Link>
-          <br />
-          <Link fontSize="13.5px">MasterTrack® Certificates</Link>
-          <br />
-          <Link fontSize="13.5px">Degrees</Link>
-          <br />
-          <Link fontSize="13.5px">For Enterprise</Link>
-          <br />
-          <Link fontSize="13.5px">For Government</Link>
-          <br />
-          <Link fontSize="13.5px">For Campus</Link>
-          <br />
-          <Link fontSize="13.5px">Become a Partner</Link>
-          <br />
-          <Link fontSize="13.5px">Coronavirus Response</Link>
-          <br />
-          <Link fontSize="13.5px">Free Courses</Link>
-          <br />
-          <Link fontSize="13.5px">All Courses</Link>
-        </Box>
-
-        <Box
-          pl={{
-            lg: "25px",
-            md: "15px",
-            sm: "10px",
-          }}
-          pr={{
-            lg: "35px",
-            md: "15px",
-            sm: "10px",
-          }}
-        >
-          <Heading as="h6" size="md" fontWeight="bold">
-            Community
-          </Heading>
-          <br />
-          <Link fontSize="13.5px">Learners</Link>
-          <br />
-          <Link fontSize="13.5px">Partners</Link>
-          <br />
-          <Link fontSize="13.5px">Beta Testers</Link>
-          <br />
-          <Link fontSize="13.5px">Translators</Link>
-          <br />
-          <Link fontSize="13.5px">Blog</Link>
-          <br />
-          <Link fontSize="13.5px">Tech Blog</Link>
-          <br />
-          <Link fontSize="13.5px">Teaching Center</Link>
-        </Box>
-
-        <Box
-          pl={{
-            lg: "25px",
-            md: "15px",
-            sm: "10px",
-          }}
-          pr={{
-            lg: "35px",
-            md: "15px",
-            sm: "10px",
-          }}
-        >
-          <Heading as="h6" size="md" fontWeight="bold">
-            More
-          </Heading>
-          <br />
-          <Link fontSize="13.5px">Press</Link>
-          <br />
-          <Link fontSize="13.5px">Investors</Link>
-          <br />
-          <Link fontSize="13.5px">Terms</Link>
-          <br />
-          <Link fontSize="13.5px">Privacy</Link>
-          <br />
-          <Link fontSize="13.5px">Help</Link>
-          <br />
-          <Link fontSize="13.5px">Accessibility</Link>
-          <br />
-          <Link fontSize="13.5px">Contact</Link>
-          <br />
-          <Link fontSize="13.5px">Articles</Link>
-          <br />
-          <Link fontSize="13.5px">Directory</Link>
-          <br />
-          <Link fontSize="13.5px">Affiliates</Link>
-          <br />
-          <Link fontSize="13.5px">Modern Slavery Statement</Link>
-        </Box>
-
-        <Box
-          pl={{
-            lg: "25px",
-            md: "15px",
-            sm: "10px",
-          }}
-          pr={{
-            lg: "35px",
-            md: "15px",
-            sm: "10px",
-          }}
-        >
-          <Flex
-            direction="column"
-            justifyContent="space-around"
-            alignContent="space-between"
-            h={{
-              lg: "100%",
-              sm: "100%",
-            }}
-          >
-            <Box
-              display="flex"
-              justifyContent="space-around"
-              alignItems="center"
-            >
-              <Image
-                width={{
-                  base: "35%",
-                  sm: "20%",
-                  md: "35%",
-                  lg: "45%",
-                }}
-                src="https://d3njjcbhbojbot.cloudfront.net/api/utilities/v1/imageproxy/https://d3njjcbhbojbot.cloudfront.net/web/images/icons/download_on_the_app_store_badge_en.svg?auto=format%2Ccompress&dpr=1&w=152&h=45&q=40"
-                alt="AppleStoreLogo"
-              />
-
-              <Image
-                width={{
-                  base: "35%",
-                  sm: "20%",
-                  md: "35%",
-                  lg: "45%",
-                }}
-                src="https://d3njjcbhbojbot.cloudfront.net/api/utilities/v1/imageproxy/https://d3njjcbhbojbot.cloudfront.net/web/images/icons/en_generic_rgb_wo_45.png?auto=format%2Ccompress&dpr=1&w=152&h=45&q=40"
-                alt="Google_Play"
-              />
-            </Box>
-
-            <Image
-              width={{
-                base: "15%",
-                sm: "15%",
-                md: "25%",
-                lg: "35%",
-              }}
-              src="https://d3njjcbhbojbot.cloudfront.net/api/utilities/v1/imageproxy/https://d3njjcbhbojbot.cloudfront.net/web/images/icons/2018-B-Corp-Logo-Black-S.png?auto=format%2Ccompress&dpr=1&w=151&h=120&q=40"
-              alt="Certified"
-            />
-          </Flex>
         </Box>
       </Grid>
       <Flex
@@ -387,10 +208,10 @@ const Footer = () => {
           md: "35px",
           lg: "55px",
         }}
+        bg="#34495e" // Xanh than đậm cho nền của phần dưới cùng
       >
         <Box>
-          {" "}
-          <Text fontSize="13.5px">© 2025 EduPNK Inc. All rights reserved.</Text>
+          <Text fontSize="13.5px" color="#ecf0f1">© 2025 EduPNK Inc. All rights reserved.</Text>
         </Box>
         <Flex spacing={4} overflow="hidden">
           <Image
@@ -411,24 +232,6 @@ const Footer = () => {
           />
           <Image
             src="https://d3njjcbhbojbot.cloudfront.net/api/utilities/v1/imageproxy/https://s3.amazonaws.com/coursera_assets/footer/youtube.png?auto=format%2Ccompress&dpr=1&w=28&h=28&q=40"
-            alt=""
-            mr={4}
-          />
-          <Image
-            display={{
-              base: "none",
-              sm: "block",
-            }}
-            src="https://d3njjcbhbojbot.cloudfront.net/api/utilities/v1/imageproxy/https://s3.amazonaws.com/coursera_assets/footer/instagram.png?auto=format%2Ccompress&dpr=1&w=28&h=28&q=40"
-            alt=""
-            mr={4}
-          />
-          <Image
-            display={{
-              base: "none",
-              sm: "block",
-            }}
-            src="https://d3njjcbhbojbot.cloudfront.net/api/utilities/v1/imageproxy/https://coursera_assets.s3.amazonaws.com/images/9b7e964107839c77644d7e7d15035b73.png?auto=format%2Ccompress&dpr=1&w=28&h=28&q=40"
             alt=""
             mr={4}
           />

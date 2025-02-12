@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, Flex, Heading } from "@chakra-ui/react";
+import { Box, Flex, Heading, Text, Spinner } from "@chakra-ui/react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -15,18 +15,49 @@ const LandingPageCarousel = ({ keyword }) => {
   const settings = {
     swipe: true,
     dots: true,
-    infinite: courses.length > 4, // Vô hạn chỉ khi có nhiều hơn 4 phần tử
+    infinite: courses.length > 4,
     speed: 500,
-    slidesToShow: courses.length < 4 ? courses.length : 4, // Hiển thị đúng số lượng phần tử
+    slidesToShow: courses.length < 4 ? courses.length : 4,
     slidesToScroll: 1,
-    centerMode: true, // Bật chế độ căn giữa
-    centerPadding: courses.length < 4 ? "0px" : "50px", // Điều chỉnh padding khi ít phần tử
+    centerMode: true,
+    centerPadding: courses.length < 4 ? "0px" : "50px",
     responsive: [
       { breakpoint: 1200, settings: { slidesToShow: Math.min(4, courses.length), slidesToScroll: 1, centerMode: true } },
       { breakpoint: 1024, settings: { slidesToShow: Math.min(3, courses.length), slidesToScroll: 1, centerMode: true } },
       { breakpoint: 800, settings: { slidesToShow: Math.min(2, courses.length), slidesToScroll: 1, centerMode: true } },
       { breakpoint: 500, settings: { slidesToShow: 1, slidesToScroll: 1, centerMode: true } },
     ],
+    appendDots: (dots) => (
+      <div
+        style={{
+          padding: "10px",
+          display: "flex",
+          justifyContent: "center",
+          position: "absolute",  
+          bottom: "-40px",       
+          width: "100%",        
+          zIndex: "10",          
+        }}
+      >
+        <ul style={{ margin: "0px", display: "flex", listStyleType: "none" }}> {dots} </ul>
+      </div>
+    ),
+    customPaging: (i) => (
+      <div
+        style={{
+          width: "10px", // Giảm kích thước nút dots
+          height: "10px",
+          borderRadius: "50%",
+          border: "2px solid #3182CE", // Viền của nút dots, màu #3182CE
+          margin: "0 5px",
+          transition: "transform 0.3s ease",
+        }}
+      />
+    ),
+    autoplay: true,
+    autoplaySpeed: 2000,
+    pauseOnHover: true,
+    initialSlide: 0,
   };
   
   
@@ -42,14 +73,13 @@ const LandingPageCarousel = ({ keyword }) => {
       })
       .then((data) => {
         if (keyword) {
-          // Lọc các khóa học có title chứa từ khóa
           setCourses(
             data.course.filter((course) =>
               course.category.toLowerCase().includes(keyword.toLowerCase())
             )
           );
         } else {
-          setCourses(data.course); // Hiển thị tất cả nếu không có từ khóa
+          setCourses(data.course);
         }
         setLoading(false);
       })
@@ -60,13 +90,34 @@ const LandingPageCarousel = ({ keyword }) => {
   }, [keyword]);
 
   return (
-    <Flex direction={"column"} width="80%" p={"20px"} m={"auto"}>
+    <Flex className="carousel-container" direction="column" p="20px" m="auto">
+  <Heading textAlign="center" mb="20px" fontSize="2xl" color="teal.600">
+    {keyword ? `Kết quả cho "${keyword}"` : "Các khóa học nổi bật"}
+  </Heading>
+
+  {loading ? (
+      <Flex justifyContent="center" alignItems="center" height="200px">
+        <Spinner size="xl" color="teal.500" />
+      </Flex>
+    ) : courses.length > 0 ? (
       <Slider {...settings}>
-        {!loading
-          ? courses?.map((el) => <Card {...el} key={el._id} />)
-          : arr.map((el, i) => <LoadingComponent key={i} />)}
+        {courses.map((el) => (
+          <Box
+            key={el._id}
+            transform="scale(1)"
+            transition="transform 0.3s ease-in-out"
+            _hover={{ transform: "scale(1.05)" }}
+          >
+            <Card {...el} />
+          </Box>
+        ))}
       </Slider>
-    </Flex>
+    ) : (
+      <Text textAlign="center" color="gray.500" fontSize="lg">
+        Không tìm thấy khóa học nào phù hợp với từ khóa "{keyword}".
+      </Text>
+    )}
+  </Flex>
   );
 };
 

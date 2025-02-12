@@ -4,6 +4,7 @@ import {
   Link,
   Image,
   useBreakpointValue,
+  useColorModeValue, // Chakra hook for dynamic color mode
 } from "@chakra-ui/react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
@@ -43,11 +44,15 @@ const Section2 = () => {
     ],
   };
 
+  // Nền và màu chữ động cho chế độ tối/sáng
+  const bgColor = useColorModeValue("#f5f5f5", "#2D3748"); // Sáng tối màu nền
+  const textColor = useColorModeValue("black", "white"); // Sáng tối màu chữ
+
   return (
     <Flex
       direction="column"
       gap={6}
-      bg="#f5f5f5"
+      bg={bgColor} // Sử dụng màu nền động
       p={10}
       justifyContent="center"
       alignItems="center"
@@ -58,6 +63,7 @@ const Section2 = () => {
           sm: "l",
           md: "xl",
         }}
+        color={textColor} // Màu chữ động theo chế độ
       >
         We collaborate with{" "}
         <Link color="#FF9900" href="#" fontWeight="bold">

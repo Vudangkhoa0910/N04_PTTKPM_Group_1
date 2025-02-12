@@ -10,7 +10,7 @@ import {
   GET_Video_SUCCESS,
   PATCH_PRODUCT_SUCCESS,
   PATCH_User_SUCCESS,
-  PATCH_Video_SUCCESS,
+  PATCH_Video_SUCCESS, 
   PRODUCT_FAILURE,
   PRODUCT_REQUEST,
 } from "./actionType";

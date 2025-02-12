@@ -399,49 +399,56 @@ useEffect(() => {
           </Box>
         )}
 
-{instructorRequests.length > 0 ? (
-  instructorRequests.map((request, index) => (
-    <Box
-      key={request._id}
-      p={4}
-      mb={3}
-      borderWidth="1px"
-      borderRadius="md"
-      bg={isDarkMode ? "#2D3748" : "white"}
-      color={isDarkMode ? "white" : "black"}
-    >
-      <Text fontWeight="bold">
-        {index + 1}. {request.name}
-      </Text>
-      <Text>Age: {request.age}</Text>
-      <Text>Profession: {request.profession}</Text>
-      <Text>Field: {request.field}</Text>
-      <Text>Experience: {request.experience}</Text>
-      <Text>Description: {request.description}</Text>
-      <Text>
-        CV:{" "}
-        <a href={request.cv} target="_blank" rel="noopener noreferrer" style={{ color: "blue" }}>
-          View CV
-        </a>
-      </Text>
-      <Flex gap={3} mt={3}>
-        <Button
-          colorScheme="green"
-          onClick={() => handleApproveRequest(request.userId)}
+{selectedSection === "instructorRequests" && (
+  <Box mt={5}>
+    <Text fontSize="2xl" fontWeight="bold" mb={3}>
+      Instructor Requests
+    </Text>
+    {instructorRequests.length > 0 ? (
+      instructorRequests.map((request, index) => (
+        <Box
+          key={request._id}
+          p={4}
+          mb={3}
+          borderWidth="1px"
+          borderRadius="md"
+          bg={isDarkMode ? "#2D3748" : "white"}
+          color={isDarkMode ? "white" : "black"}
         >
-          Approve
-        </Button>
-        <Button
-          colorScheme="red"
-          onClick={() => handleRejectRequest(request._id)}
-        >
-          Reject
-        </Button>
-      </Flex>
-    </Box>
-  ))
-) : (
-  <Text>No instructor requests found.</Text>
+          <Text fontWeight="bold">
+            {index + 1}. {request.name}
+          </Text>
+          <Text>Age: {request.age}</Text>
+          <Text>Profession: {request.profession}</Text>
+          <Text>Field: {request.field}</Text>
+          <Text>Experience: {request.experience}</Text>
+          <Text>Description: {request.description}</Text>
+          <Text>
+            CV:{" "}
+            <a href={request.cv} target="_blank" rel="noopener noreferrer" style={{ color: "blue" }}>
+              View CV
+            </a>
+          </Text>
+          <Flex gap={3} mt={3}>
+            <Button
+              colorScheme="green"
+              onClick={() => handleApproveRequest(request.userId)}
+            >
+              Approve
+            </Button>
+            <Button
+              colorScheme="red"
+              onClick={() => handleRejectRequest(request._id)}
+            >
+              Reject
+            </Button>
+          </Flex>
+        </Box>
+      ))
+    ) : (
+      <Text>No instructor requests found.</Text>
+    )}
+  </Box>
 )}
 
       </Grid>

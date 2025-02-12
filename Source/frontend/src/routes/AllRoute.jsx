@@ -33,6 +33,7 @@ import AddTeacherVideos from "../components/TeacherComponents/AddTeacherVideos";
 import AddTeacher from "../components/TeacherComponents/AddTeacher";
 import GetTeacherVideos from "../components/TeacherComponents/GetTeacherVideos";
 import VideoDetail from "../components/singlePageComps/VideoDetail";
+import UserHistoryCrouse from "../components/UserComponents/HistoryCrouse";
 const AllRoute = () => {
   return (
     <Routes>
@@ -106,6 +107,16 @@ const AllRoute = () => {
           </PrivateRoutes>
         }
       />
+
+      <Route
+        path="/history"
+        element={
+          <PrivateRoutes>
+            <UserHistoryCrouse />
+          </PrivateRoutes>
+        }
+      />
+
       <Route
         path="/admin/discount"
         element={

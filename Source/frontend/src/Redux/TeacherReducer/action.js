@@ -193,6 +193,9 @@ import {
   PATCH_User_SUCCESS,
   PRODUCT_FAILURE,
   PRODUCT_REQUEST,
+  GET_COURSE_ENROLLMENTS_REQUEST, // Import action types mới
+  GET_COURSE_ENROLLMENTS_SUCCESS,
+  GET_COURSE_ENROLLMENTS_FAILURE,
 } from "./actionType";
 
 const BASE_URL = "http://localhost:5001"; // Cập nhật URL backend localhost
@@ -232,9 +235,9 @@ export const getCourse = (data, userId) => (dispatch) => {
     .catch((e) => console.log(e));
 };
 
-// Thêm khóa học mới
 export const addProduct = (data) => (dispatch) => {
   dispatch({ type: PRODUCT_REQUEST });
+
   fetch(`${BASE_URL}/courses/add`, {
     method: "POST",
     headers: {
@@ -245,11 +248,15 @@ export const addProduct = (data) => (dispatch) => {
   })
     .then((res) => res.json())
     .then((res) => {
-      console.log(res);
-      dispatch({ type: ADD_PRODUCT_SUCCESS, payload: res.data });
+      if (res.data) {
+        dispatch({ type: ADD_PRODUCT_SUCCESS, payload: res.data });
+      } else {
+        console.error("Invalid response from server:", res);
+      }
     })
-    .catch((e) => console.log(e));
+    .catch((e) => console.error("Error adding course:", e));
 };
+
 
 // Thêm User mới
 export const addUser = (data) => (dispatch) => {
@@ -291,23 +298,51 @@ export const addVideo = (data, courseId) => (dispatch) => {
 };
 
 // Lấy danh sách khóa học
-export const getProduct = (page, limit, search, order) => (dispatch) => {
+export const getProduct = (page, limit, search, order) => async (dispatch) => {
   dispatch({ type: PRODUCT_REQUEST });
-  axios
-    .get(
+
+  const userData = JSON.parse(localStorage.getItem("user"));
+  if (!userData || !userData.userId) {
+    console.error("Error: userData is missing or invalid in localStorage.");
+    alert("Unable to retrieve user ID. Please log in again.");
+    return;
+  }
+  const userId = userData.userId;
+
+  try {
+    const res = await axios.get(
       `${BASE_URL}/courses?page=${page}&limit=${limit}&q=${search}&sortBy=price&sortOrder=${order}`,
       {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${userData.token}`,
         },
       }
-    )
-    .then((res) => {
-      console.log("getProduct", res);
-      dispatch({ type: GET_PRODUCT_SUCCESS, payload: res.data.course });
-    })
-    .catch((e) => dispatch({ type: PRODUCT_FAILURE }));
+    );
+    console.log("API response data:", res.data); // Log response để xem cấu trúc
+
+    const filteredCourses = res.data.course.filter(course => {
+      if (course.teacherId?.$oid) {
+        return course.teacherId.$oid === userId;
+      }
+      return course.teacherId === userId;
+    });
+
+    dispatch({
+      type: GET_PRODUCT_SUCCESS,
+      payload: {
+        courses: filteredCourses, // Payload chính là object chứa courses và thông tin phân trang
+        totalPages: res.data.totalPages, // Lấy totalPages từ response
+        totalCourses: res.data.totalCourses, // Lấy totalCourses từ response (nếu có)
+        currentPage: res.data.currentPage, // Lấy currentPage từ response (nếu có)
+      },
+    });
+  } catch (e) {
+    dispatch({ type: PRODUCT_FAILURE });
+    console.error("Error fetching courses:", e);
+  }
 };
+
+
 
 // Lấy danh sách User
 export const getUser = (page, limit, search, order) => (dispatch) => {
@@ -425,4 +460,25 @@ export default function convertDateFormat(dateString) {
   }
 
   return formattedDate;
-}
+};
+
+
+export const getCourseEnrollments = () => async (dispatch) => {
+  dispatch({ type: GET_COURSE_ENROLLMENTS_REQUEST });
+  try {
+    const response = await axios.get(`${BASE_URL}/enrollments`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    dispatch({ type: GET_COURSE_ENROLLMENTS_SUCCESS, payload: response.data }); 
+    return response.data;
+  } catch (error) {
+    dispatch({ type: GET_COURSE_ENROLLMENTS_FAILURE });
+    dispatch({ type: PRODUCT_FAILURE });
+    console.error("Error fetching course enrollments:", error);
+    return [];
+  }
+};
+
+

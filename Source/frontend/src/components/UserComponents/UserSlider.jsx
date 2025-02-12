@@ -1,26 +1,22 @@
 import {
   Box,
   Button,
-  Container,
   Flex,
   Heading,
   Image,
-  Slider,
-  SliderFilledTrack,
-  SliderThumb,
-  SliderTrack,
   Text,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { ArrowLeftIcon, ArrowRightIcon } from "@chakra-ui/icons";
+
 const UserSlider = () => {
   const images = [
-    "https://images.pexels.com/photos/5212653/pexels-photo-5212653.jpeg?cs=srgb&dl=pexels-max-fischer-5212653.jpg&fm=jpg",
-    "https://www.mit.edu/files/images/201807/15656704711_00457bd2c9_b_1.jpg",
-    "https://inup.iitkgp.ac.in/images/iit_kgp.jpg",
-    "https://www.vedantu.com/seo/content-images/33e42c38-8332-4d51-9dcf-65a4f262b5da.png",
-    "https://media.wired.com/photos/6365b7166776a0176c76e4de/master/w_2560%2Cc_limit/All-the-Free-Resources-You-Can-Find-at-Your-Library-Gear-GettyImages-1331816640.jpg",
-    "https://images.seattleschild.com/wp-content/uploads/2021/09/Classy-Treehouse-w-logo-e1632341660272.png",
+    "https://phenikaa-uni.edu.vn:3600/pu/vi/image-topic-60162ab3ed4c2a36389c5a9d//khua2.jpg",
+    "https://afamilycdn.com/150157425591193600/2022/9/7/photo-1-1662522743900551288398-1662526506081-16625265061841688172215.jpg",
+    "https://saudaihoc.phenikaa-uni.edu.vn/wp-content/uploads/2023/10/111.jpg",
+    "https://uwebristol.edu.vn/wp-content/uploads/Logo-UWE-Phenikaa_edited.jpg",
+    "https://phenikaa-uni.edu.vn:3600/eee/vi/posts/phenikaa-lighting.png",
+    "https://phenikaa-uni.edu.vn:3600/pu/vi/posts/21761045618568323211858904406023340136083277n.jpeg",
   ];
 
   const textOnImage = [
@@ -33,163 +29,118 @@ const UserSlider = () => {
   ];
 
   const indexDescription = [
-    "SRM encourages collaborative group studies, creating a vibrant learning environment where students can connect and learn together. It offers a versatile platform for educators to share their knowledge, helping students excel academically.",
-    "Secure your degree from renowned institutes with SRM's comprehensive education solutions. SRM provides access to globally recognized institutions, ensuring students receive quality education and gain valuable qualifications for their future careers.",
-    "SRM unlocks access to prestigious educational institutions, elevating your academic journey to new heights. With SRM, you can explore a world of educational opportunities, expanding your knowledge and skills in various fields.",
-    "Experience dynamic online classes on SRM's intuitive platform, tailored to modern learners' needs. SRM's user-friendly interface and interactive features make online learning engaging and effective, helping students succeed in today's digital age.",
-    "Access meticulously crafted study notes on SRM to enhance your understanding and retention of course materials. SRM's comprehensive study resources empower students to excel in their studies and gain a deeper understanding of their subjects.",
-    "SRM is your gateway to a successful career, offering the knowledge and skills needed for professional excellence. With SRM, you can prepare for a bright future and achieve your career goals through high-quality education and training.",
+    "EduPhenikaa encourages collaborative group studies, creating a vibrant learning environment where students can connect and learn together. It offers a versatile platform for educators to share their knowledge, helping students excel academically.",
+    "Secure your degree from renowned institutes with EduPhenikaa's comprehensive education solutions. EduPhenikaa provides access to globally recognized institutions, ensuring students receive quality education and gain valuable qualifications for their future careers.",
+    "EduPhenikaa unlocks access to prestigious educational institutions, elevating your academic journey to new heights. With EduPhenikaa, you can explore a world of educational opportunities, expanding your knowledge and skills in various fields.",
+    "Experience dynamic online classes on EduPhenikaa's intuitive platform, tailored to modern learners' needs. EduPhenikaa's user-friendly interface and interactive features make online learning engaging and effective, helping students succeed in today's digital age.",
+    "Access meticulously crafted study notes on EduPhenikaa to enhance your understanding and retention of course materials. EduPhenikaa's comprehensive study resources empower students to excel in their studies and gain a deeper understanding of their subjects.",
+    "EduPhenikaa is your gateway to a successful career, offering the knowledge and skills needed for professional excellence. With EduPhenikaa, you can prepare for a bright future and achieve your career goals through high-quality education and training.",
   ];
 
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const handleChange = (value) => {
-    setCurrentIndex(value);
-  };
-
   const handleNext = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex === images.length - 1 ? 0 : prevIndex + 1
-    );
+    setCurrentIndex((prevIndex) => (prevIndex === images.length - 1 ? 0 : prevIndex + 1));
   };
 
   const handlePrevious = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex === 0 ? images.length - 1 : prevIndex - 1
-    );
+    setCurrentIndex((prevIndex) => (prevIndex === 0 ? images.length - 1 : prevIndex - 1));
   };
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) =>
-        prevIndex === images.length - 1 ? 0 : prevIndex + 1
-      );
-    }, 3000);
+      setCurrentIndex((prevIndex) => (prevIndex === images.length - 1 ? 0 : prevIndex + 1));
+    }, 5000);
 
     return () => clearInterval(interval);
   }, []);
+
   return (
-    <>
-      <Container mt="100px" maxW="container.xxl">
-        <Flex direction="column" align="center" bg="#F7F3EA">
-          <Flex align="center" justify="space-between" mb={4}>
-            <Button
-              colorScheme="blue"
-              borderRadius="50%"
-              onClick={handlePrevious}
-              size="lg"
-              p={4} // Đảm bảo nút có đủ không gian cho icon
-              _hover={{
-                bg: "blue.600", // Màu khi hover
-                transform: "scale(1.1)", // Nút phóng to nhẹ khi hover
-                boxShadow: "0px 6px 12px rgba(0, 0, 0, 0.2)", // Bóng đổ khi hover
-              }}
-              _active={{
-                bg: "blue.700", // Màu khi click
-                transform: "scale(1)", // Kích thước không thay đổi khi nhấn
-              }}
-              _focus={{
-                outline: "none", // Xóa viền focus
-              }}
-              transition="all 0.2s ease-in-out"
-              position="relative"
-            >
-              <ArrowLeftIcon boxSize={6} />
-            </Button>
+    <Box w="100vw" position="relative" overflow="hidden">
+      {/* Image Section */}
+      <Box
+        display="flex"
+        transition="transform 0.8s ease-in-out"
+        transform={`translateX(-${currentIndex * 100}vw)`}
+        w={`${images.length * 100}vw`}
+      >
+        {images.map((image, index) => (
+          <Image
+            key={index}
+            src={image}
+            alt={`Slide ${index}`}
+            w="100vw"
+            h="80vh"  // Adjust height here to 50% of the screen height
+            objectFit="cover"
+          />
+        ))}
+      </Box>
 
-            <Box position="relative" p="2">
-              <Image
-                w={"2000px"}
-                h={"400px"}
-                fit="cover"
-                src={`${images[currentIndex]}`}
-                borderRadius="16px"
-              />
-              <Box
-                position="absolute"
-                bottom="10"
-                w="100%"
-                color="rgba(255, 255, 255, 0.8)"
-                p="8px"
-                display="flex"
-                alignItems="center"
-                justifyContent="center"
-                flexDirection="column"
-              >
-                <Text>
-                  <Heading
-                    size="3xl"
-                    letterSpacing="1.5px"
-                    style={{ textShadow: "1px 1px 2px rgba(0, 0, 0, 0.5)" }}
-                  >
-                    {textOnImage[currentIndex]}
-                  </Heading>
-                </Text>
-              </Box>
-            </Box>
-            <Button
-              colorScheme="blue"
-              borderRadius="50%"
-              onClick={handleNext}
-              size="lg"
-              p={4} // Đảm bảo nút có đủ không gian cho icon
-              _hover={{
-                bg: "blue.600", // Màu khi hover
-                transform: "scale(1.1)", // Nút phóng to nhẹ khi hover
-                boxShadow: "0px 6px 12px rgba(0, 0, 0, 0.2)", // Bóng đổ khi hover
-              }}
-              _active={{
-                bg: "blue.700", // Màu khi click
-                transform: "scale(1)", // Kích thước không thay đổi khi nhấn
-              }}
-              _focus={{
-                outline: "none", // Xóa viền focus
-              }}
-              transition="all 0.2s ease-in-out"
-              position="relative"
-            >
-              <ArrowRightIcon boxSize={6} />
-            </Button>
-          </Flex>
+      {/* Text Overlay */}
+      <Box
+        position="absolute"
+        bottom="10%"
+        left="50%"
+        transform="translateX(-50%)"
+        w="90%"
+        maxW="800px"
+        textAlign="center"
+        bg="rgba(0, 0, 0, 0.5)"  // Added background with transparency
+        p={4}
+        borderRadius="md"
+      >
+        <Heading
+          size="2xl"
+          mb={4}
+          bgGradient="linear(to-r, orange.400, yellow.400)"
+          bgClip="text"
+          textShadow="2px 2px 8px rgba(0, 0, 0, 0.8)"
+          color="orange"  // Text color set to white for visibility
+        >
+          {textOnImage[currentIndex]}
+        </Heading>
+        <Text
+          fontSize="lg"
+          color="white"  // Make the description text color white
+          fontWeight="medium"
+          lineHeight="1.8"
+        >
+          {indexDescription[currentIndex]}
+        </Text>
+      </Box>
 
-          <Slider
-            defaultValue={currentIndex}
-            min={0}
-            max={images.length - 1}
-            onChange={handleChange}
-            w="400px"
-          >
-            {/* <SliderTrack>
-              <SliderFilledTrack bg="blue.500" />
-            </SliderTrack>
-            <SliderThumb /> */}
-          </Slider>
-          <Box
-            p="4"
-            w="90%"
-            m="auto"
-            textAlign="center"
-            bg="rgba(255, 255, 255, 0.8)"
-            borderRadius="8px"
-            boxShadow="lg"
-          >
-            <Text>
-              <Heading
-                size="md"
-                fontWeight="600"
-                letterSpacing="2px"
-                lineHeight="1.8rem"
-                color="gray.800"
-                mb={4} // Khoảng cách dưới tiêu đề
-                style={{ textShadow: "1px 1px 2px rgba(0, 0, 0, 0.3)" }} // Thêm hiệu ứng bóng cho tiêu đề
-              >
-                {indexDescription[currentIndex]}
-              </Heading>
-            </Text>
-          </Box>
-        </Flex>
-      </Container>
-    </>
+      {/* Navigation Buttons */}
+      <Button
+        position="absolute"
+        top="50%"
+        left="10px"
+        transform="translateY(-50%)"
+        bg="transparent"
+        color="white"
+        borderRadius="full"
+        _hover={{ color: "orange.500" }}
+        _active={{ color: "orange.600" }}
+        onClick={handlePrevious}
+        zIndex={2}
+      >
+        <ArrowLeftIcon boxSize={8} />
+      </Button>
+      <Button
+        position="absolute"
+        top="50%"
+        right="10px"
+        transform="translateY(-50%)"
+        bg="transparent"
+        color="white"
+        borderRadius="full"
+        _hover={{ color: "orange.500" }}
+        _active={{ color: "orange.600" }}
+        onClick={handleNext}
+        zIndex={2}
+      >
+        <ArrowRightIcon boxSize={8} />
+      </Button>
+    </Box>
   );
 };
 

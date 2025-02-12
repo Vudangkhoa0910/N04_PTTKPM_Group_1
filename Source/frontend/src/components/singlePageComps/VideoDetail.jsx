@@ -125,7 +125,7 @@ export default function VideoDetail() {
             {showFullDescription && (
               <Text fontSize="md" color="gray.700" lineHeight="1.8" mt="2">
                 {res?.course?.fullDescription ||
-                  "Full description of the course"}
+                  "Khóa học hát này được thiết kế dành cho những ai yêu thích âm nhạc và muốn phát triển kỹ năng ca hát của mình. Bạn sẽ học cách kiểm soát hơi thở, kỹ thuật thanh nhạc cơ bản, cũng như cách phát âm đúng và rõ ràng khi hát. Khóa học cũng bao gồm các bài tập giúp bạn cải thiện khả năng nghe nhạc và phối hợp âm điệu, giúp bạn thể hiện cảm xúc qua từng bài hát. Bên cạnh đó, bạn sẽ được hướng dẫn cách xử lý các bài hát ở nhiều thể loại khác nhau, từ pop, ballad đến nhạc trữ tình. Khóa học này không chỉ dạy kỹ thuật mà còn giúp bạn tìm ra phong cách âm nhạc riêng của mình. Tham gia khóa học để tự tin hơn khi đứng trên sân khấu và hát trước công chúng."}
               </Text>
             )}
 

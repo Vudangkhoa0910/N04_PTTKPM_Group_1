@@ -1,83 +1,83 @@
+/* Cập nhật để carousel chiếm toàn bộ chiều ngang màn hình */
+.carousel-container {
+  width: 100vw; /* Chiếm toàn bộ chiều ngang của màn hình */
+  overflow: hidden; /* Ẩn phần thừa */
+}
+
+/* Cập nhật các slide để luôn hiển thị viền cam, bo góc và khoảng cách giữa các phần tử */
 .slick-slide > div {
   display: flex;
-  justify-content: center; /* Căn giữa theo chiều ngang */
+  justify-content: center;
+  align-items: center;
+  border: 4px solid #FF7F00; /* Viền cam luôn hiển thị */
+  border-radius: 10px; /* Bo góc mềm mại */
+  padding: 5px; /* Đảm bảo có khoảng cách xung quanh phần tử */
+  position: relative;
+  transition: transform 0.3s ease-in-out; /* Hiệu ứng khi hover */
+  margin: 0 15px; /* Khoảng cách giữa các phần tử (canh trái và phải) */
 }
 
+/* Giữ hiệu ứng bo góc khi hover */
+.slick-slide > div:hover {
+  transform: scale(1.03); /* Tăng kích thước khi hover */
+}
+
+/* Giữ kích thước tối đa cố định và căn giữa */
 .slick-slide {
-  max-width: 300px; /* Giữ kích thước tối đa cố định */
-  margin: 0 auto;   /* Căn giữa phần tử */
+  max-width: 100%; /* Cập nhật để chiếm toàn bộ chiều ngang */
+  margin: 0 auto; /* Căn giữa */
 }
 
+/* Căn chỉnh nội dung của slick track */
 .slick-list {
-  padding: 10px 0; /* Tạo khoảng trống nhỏ phía trên và dưới */
+  padding: 0; /* Xóa padding mặc định */
 }
 
 .slick-track {
   display: flex;
-  align-items: center; /* Căn giữa phần tử theo chiều dọc */
+  align-items: center;
 }
 
+/* Cập nhật các nút điều hướng */
+.slick-prev, .slick-next {
+  position: absolute;
+  top: 50%;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  background-color: rgba(255, 255, 255, 0.5); /* Nền trong suốt */
+  border: 2px solid #FF7F00; /* Viền cam */
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  z-index: 2;
+  transform: translateY(-50%);
+}
 
+.slick-prev:hover, .slick-next:hover {
+  background-color: #FF7F00; /* Nền cam khi hover */
+  transform: scale(1.1); /* Tăng kích thước khi hover */
+}
+
+/* Các ký tự điều hướng */
+.slick-prev:before, .slick-next:before {
+  content: "🠸";
+  font-weight: 900;
+  font-size: 28px;
+  color: #FF7F00; /* Màu cam */
+}
+
+.slick-next:before {
+  content: "🠺";
+}
+
+/* Đảm bảo các nút điều hướng không che phần tử */
 .slick-prev {
-    position: absolute;
-    left: -60px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 40px;
-    height: 40px;
+  left: 10px;
+}
 
-    border-radius: 4px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: background-color 0.3s ease, border-color 0.3s ease;
-    z-index: 1; 
-  }
-  
-  
-  
-  
- 
-  .slick-next {
-    position: absolute;
-    right: -60px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 40px;
-    height: 40px;
-    border-radius: 4px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: background-color 0.3s ease, border-color 0.3s ease;
-    z-index: 1; 
-  }
-  
-
-  .slick-prev:hover {
-  
-    color: #0056d2;
-  }
-  
-  .slick-next:hover {
- 
-    color: #0056d2;
-  }
-
-
-  .slick-prev:before {
-    content: "🠸";
-    font-weight: 900;
-    font-size: 54px;
-    color:#0056d2 ;
-  }
-  .slick-next:before {
-    content: "🠺";
-    font-size: 54px;
-    font-weight: 900;
-    color:#0056d2 ;
-  }
-  
-  
+.slick-next {
+  right: 10px;
+}

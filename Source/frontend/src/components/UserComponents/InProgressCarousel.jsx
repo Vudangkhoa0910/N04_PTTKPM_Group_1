@@ -6,14 +6,13 @@ import "slick-carousel/slick/slick-theme.css";
 import "../../Pages/LandingPageComponents/LandingPageComponent.css";
 import Card from "../../Pages/LandingPageComponents/Card";
 import LoadingComponent from "../../Pages/LoadingComponents/LoadingComponent";
-import jwtDecode from "jwt-decode";
 import axios from "axios";
 
 const InProgressCarousel = () => {
   const [loading, setLoading] = useState(true);
   const [course, setCourse] = useState([]);
-  // const arr = [1];
-  var settings = {
+  
+  const settings = {
     swipe: true,
     dots: true,
     infinite: true,
@@ -54,7 +53,6 @@ const InProgressCarousel = () => {
 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("user"));
-    // console.log(token.userId);
     const url = `http://localhost:5001/users/userCourse/${user.userId}`;
 
     axios
@@ -62,9 +60,11 @@ const InProgressCarousel = () => {
       .then((res) => {
         setLoading(false);
         setCourse(res.data.course);
-        // console.log(res.data.course);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        setLoading(false);
+        console.log(err);
+      });
   }, []);
 
   return (
@@ -80,9 +80,15 @@ const InProgressCarousel = () => {
       }}
       overflow="hidden"
     >
-    {course?.length!==0 ?       <Slider {...settings}>
-        {!loading ? course.map((el) => <Card {...el} key={el._id} />) : ""}
-      </Slider> : (
+      {loading ? (
+        <LoadingComponent />
+      ) : course.length !== 0 ? (
+        <Slider {...settings}>
+          {course.map((el) => (
+            <Card {...el} key={el._id} />
+          ))}
+        </Slider>
+      ) : (
         <Box
           display="flex"
           alignItems="center"
@@ -94,10 +100,10 @@ const InProgressCarousel = () => {
             <Image
               display="block"
               src="https://cdn.dribbble.com/users/1693462/screenshots/3504905/media/6d5a0df598037bf7a872f1f8aef118b8.gif"
-              alt="Empyt"
+              alt="Empty"
             />
           </Box>
-          <Text fontWeight="bold">You haven't subscribe any course</Text>
+          <Text fontWeight="bold">You haven't subscribed to any courses</Text>
         </Box>
       )}
     </Flex>
