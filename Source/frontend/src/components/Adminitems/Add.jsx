@@ -119,7 +119,7 @@ const Add = () => {
         overflow="auto"
       >
         <Text fontSize="2xl" fontWeight="bold" color="teal.500" mb={5}>
-          Course List
+          Add Video to Course
         </Text>
 
         <Box overflowX="auto">
@@ -130,7 +130,7 @@ const Add = () => {
           >
             <Thead>
               <Tr>
-                <Th>Title</Th>
+                <Th>Course Name</Th>
                 <Th>Date</Th>
                 <Th>Category</Th>
                 <Th>Description</Th>

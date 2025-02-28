@@ -196,7 +196,7 @@ const SignUp = () => {
                 onChange={handleCheckboxChange}
                 colorScheme="blue"
               >
-                Send me special offers and recommendations
+                Accept the terms and comply with the system regulations.
               </Checkbox>
             </Box>
             {/* Sign Up Button */}

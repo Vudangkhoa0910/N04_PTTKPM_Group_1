@@ -25,8 +25,13 @@ const courseSchema = new mongoose.Schema({
   price:{
     type:Number,
     require:true,
-  }
-  ,
+  },
+  discount: {
+    type: Number,
+    default: 0,  // Default discount is 0%
+    min: 0,
+    max: 100     // Maximum discount is 100%
+  },
   createdAt: {
     type: Date,
     default: Date.now

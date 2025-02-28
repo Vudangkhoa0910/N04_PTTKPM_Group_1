@@ -10,7 +10,6 @@ import { Route, Routes } from "react-router-dom";
 import Discount from "../components/Adminitems/Discount";
 import Statistics from "../components/Adminitems/Statistics";
 import Setting from "../components/Adminitems/Setting";
-import GiftCard from "../components/Adminitems/GiftCard";
 import Users from "../components/Adminitems/Users";
 import SinglePage from "../components/singlePageComps/SinglePage";
 import Login from "../components/LogIn";
@@ -133,16 +132,6 @@ const AllRoute = () => {
           <PrivateRoutes>
             <AdminRoute>
               <Statistics />
-            </AdminRoute>
-          </PrivateRoutes>
-        }
-      />
-      <Route
-        path="/admin/giftcard"
-        element={
-          <PrivateRoutes>
-            <AdminRoute>
-              <GiftCard />
             </AdminRoute>
           </PrivateRoutes>
         }

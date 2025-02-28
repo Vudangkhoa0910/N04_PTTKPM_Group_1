@@ -23,21 +23,99 @@ const SingleAbsolute = ({ props }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [paymentMethod, setPaymentMethod] = useState("");
   const [isPaymentSuccess, setIsPaymentSuccess] = useState(false);
-  const [canNavigate, setCanNavigate] = useState(false); // Trạng thái để kiểm tra xem có thể điều hướng không
-  const [successDialogVisible, setSuccessDialogVisible] = useState(false); // Trạng thái để hiển thị dialog thành công
-  const [isCourseBought, setIsCourseBought] = useState(false); // Trạng thái để kiểm tra xem khóa học đã được mua chưa
+  const [canNavigate, setCanNavigate] = useState(false);
+  const [successDialogVisible, setSuccessDialogVisible] = useState(false);
   const navigate = useNavigate();
   const courseName =
     page === "left" ? "Personal Plan Course" : "Teams Plan Course";
 
   const [res, setRes] = useState({});
-  const { id } = useParams(); // Lấy id từ URL
+  const { id } = useParams();
   const userStore = useSelector((store) => store.UserReducer);
-  const vdo_url = `http://localhost:5001/videos/courseVideos/${id}`;
+  const vdo_url = `http://localhost:5001/videos/courseVideos/${id}`; 
+
+  const userId = userStore?.userId;
+  const token = userStore?.token;
+
+  const [enrollments, setEnrollments] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const fetchEnrollments = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:5001/enrollments?userId=${userId}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(
+          `Error ${response.status}: Failed to fetch enrollments`
+        );
+      }
+
+      const data = await response.json();
+      setEnrollments(data);
+    } catch (error) {
+      console.error("Fetch error:", error);
+      setError(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Hàm kiểm tra enrollment
+  const checkIsEnrolled = () => {
+    return enrollments.some(
+      (enrollment) =>
+        enrollment.courseId === id && enrollment.userId._id === userId
+    );
+  };
+  const buttonText = checkIsEnrolled()
+    ? "Start subscription"
+    : "Buy this course";
+
+  // Fetch enrollments khi component mount
+  useEffect(() => {
+    if (!userId || !token) return;
+
+    const fetchEnrollments = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:5001/enrollments?userId=${userId}`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error(
+            `Error ${response.status}: Failed to fetch enrollments`
+          );
+        }
+
+        const data = await response.json();
+        setEnrollments(data);
+      } catch (error) {
+        console.error("Fetch error:", error);
+        setError(error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchEnrollments();
+  }, [userId, token]);
 
   const getSinglePageData = () => {
-    const token = userStore?.token;
-
     fetch(vdo_url, {
       method: "GET",
       headers: {
@@ -60,46 +138,46 @@ const SingleAbsolute = ({ props }) => {
     setRandom((Math.random() * 20).toFixed());
   }, []);
 
-  const displayPrice = page === "left" ? price : (price * 1.2).toFixed(2);
-  const originalPrice = ((displayPrice * (+random + 100)) / 100).toFixed(2);
+  // Calculate discount price if course has discount
+  const hasDiscount = res?.course?.discount > 0;
+  const discountPercentage = res?.course?.discount || 0;
+  const originalPrice = page === "left" ? price : (price * 1.2).toFixed(2);
+  const discountedPrice = hasDiscount 
+    ? (originalPrice * (1 - discountPercentage/100)).toFixed(2) 
+    : originalPrice;
+
+  // The final price shown to users
+  const displayPrice = discountedPrice;
 
   const handlePaymentMethodSelect = (method) => {
     setPaymentMethod(method);
   };
-
   const handlePayment = async () => {
     if (!paymentMethod) {
       console.error("No payment method selected");
-      return; // Ngừng nếu chưa chọn phương thức thanh toán
+      return;
     }
-  
+
     onClose();
     setIsPaymentSuccess(true);
-  
-    // Sau khi thanh toán thành công, cho phép điều hướng
     setCanNavigate(true);
-  
-    // Đánh dấu khóa học đã được mua
-    setIsCourseBought(true);
-  
-    // Lấy userId từ localStorage
+
     const userData = JSON.parse(localStorage.getItem("user"));
     const userId = userData?.userId;
-    
+
     if (!userId) {
       console.error("User ID not found in localStorage");
-      return; // Ngừng nếu không có userId
+      return;
     }
-  
-    // Lấy courseId từ response
+
     const courseId = res?.course?._id;
     if (!courseId) {
       console.error("Course ID is missing");
-      return; // Ngừng nếu không có courseId
+      return;
     }
-  
-    const price = displayPrice; // Lấy giá của khóa học
-  
+
+    const price = displayPrice;
+
     try {
       const response = await fetch("http://localhost:5001/enrollments", {
         method: "POST",
@@ -108,46 +186,127 @@ const SingleAbsolute = ({ props }) => {
         },
         body: JSON.stringify({ userId, courseId, price, paymentMethod }),
       });
-  
-      // Kiểm tra phản hồi
+
       if (!response.ok) {
         const errorData = await response.json();
         console.error("Enrollment failed:", errorData);
         return;
       }
-  
+
       const data = await response.json();
-      console.log("Enrollment successful:", data); // Log dữ liệu trả về từ server
-  
-      // Xử lý thông báo thành công
+      console.log("Enrollment successful:", data);
+
+      // Cập nhật danh sách enrollments và chạy lại checkIsEnrolled
+      setEnrollments((prevEnrollments) => [...prevEnrollments, data]);
+
+      // Chạy lại fetchEnrollments để cập nhật giao diện
+      await fetchEnrollments();
+
       setSuccessDialogVisible(true);
       setTimeout(() => {
-        setSuccessDialogVisible(false); // Ẩn dialog sau 10 giây
+        setSuccessDialogVisible(false);
       }, 1000);
-  
     } catch (error) {
       console.error("Error during payment and enrollment:", error);
     }
   };
-  
-  
-  // Hàm điều hướng khi nhấn nút
-  const handleButtonClick = () => {
-    if (canNavigate) {
+
+  const handleButtonClick = async () => {
+    if (checkIsEnrolled()) {
+      try {
+        // Lấy dữ liệu lượt xem từ server backend
+        const response = await fetch(
+          `http://localhost:5001/views?courseId=${id}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch view data from server");
+        }
+
+        const viewData = await response.json();
+
+        // Lấy videoId từ video YouTube trong dạng link embedded
+        const videoId = getVideoIdFromLink(res?.course?.videos[0]?.link);
+        if (!videoId) {
+          throw new Error("Invalid YouTube video link");
+        }
+
+        // Lấy thông tin lượt xem từ YouTube API
+        const youtubeApiKey = ""; // Thay bằng API key của bạn
+        const youtubeResponse = await fetch(
+          `https://www.googleapis.com/youtube/v3/videos?part=statistics&id=${videoId}&key=${youtubeApiKey}`
+        );
+        if (!youtubeResponse.ok) {
+          throw new Error("Failed to fetch data from YouTube API");
+        }
+
+        const youtubeData = await youtubeResponse.json();
+        const youtubeViews = youtubeData.items[0].statistics.viewCount;
+
+        if (viewData.length > 0) {
+          // Đã có dữ liệu lượt xem, tăng view lên 1
+          await fetch(`http://localhost:5001/views/${viewData[0]._id}`, {
+            method: "PATCH",
+            headers: {
+              "Content-Type": "application/json",
+              authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({ views: viewData[0].views + 1 }),
+          });
+        } else {
+          // Chưa có dữ liệu, thêm mới
+          await fetch("http://localhost:5001/views", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({
+              views: youtubeViews, // Lấy số lượt xem từ YouTube
+              teacherId: res?.course?.teacherId,
+              courseId: id,
+              courseName: res?.course?.title,
+              coursePrice: res?.course?.price,
+            }),
+          });
+        }
+      } catch (error) {
+        console.error("Error updating views:", error);
+      }
+
+      // Dẫn tới trang chi tiết video
       const firstVideoLink =
         res?.course?.videos?.length > 0 ? res?.course?.videos[0]?.link : null;
-      // Nếu thanh toán thành công và có thể điều hướng, điều hướng đến trang video
-      navigate(
-        `/video-detail/?courseId=${res?.course?._id}&url=${encodeURIComponent(
-          // "https://www.youtube.com/embed/0qhZJsVX7rg"
-          firstVideoLink
-        )}`
-      );
+      if (firstVideoLink) {
+        navigate(
+          `/video-detail/?courseId=${res?.course?._id}&url=${encodeURIComponent(
+            firstVideoLink
+          )}`
+        );
+      } else {
+        console.error("No video link available");
+      }
     } else {
-      // Nếu chưa thanh toán thành công, mở modal thanh toán
-      onOpen();
+      onOpen(); // Nếu chưa đăng ký, mở popup
     }
   };
+
+  // Hàm để lấy videoId từ link YouTube embed
+  const getVideoIdFromLink = (link) => {
+    const regex = /(?:https?:\/\/(?:www\.)?youtube\.com\/embed\/)([\w-]+)/;
+    const match = link.match(regex);
+    return match ? match[1] : null;
+  };
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error}</div>;
 
   return (
     <div className="xl:border xl:border-gray-300 text-white xl:text-black xl:max-w-[800px] xl:shadow-lg shadow-neutral-800 xl:bg-white rounded-lg overflow-hidden">
@@ -199,30 +358,35 @@ const SingleAbsolute = ({ props }) => {
         >
           {page === "left" ? "Start subscription" : "Get Team Plan"}
         </button>
-        {
-          // Ẩn nút "Buy this course" khi khóa học đã được mua
-          !isCourseBought && (
+
+        {!checkIsEnrolled() && (
+          <>
             <div className="flex space-x-2 place-items-baseline mb-2">
               <p className="font-bold text-lg">${displayPrice}</p>
-              <p className="line-through text-xs text-gray-400">
-                ${originalPrice}
-              </p>
-              <p className="text-xs text-green-600">{random}% off</p>
+              {hasDiscount && (
+                <>
+                  <p className="line-through text-xs text-gray-400">
+                    ${originalPrice}
+                  </p>
+                  <p className="text-xs text-green-600">{discountPercentage}% off</p>
+                </>
+              )}
             </div>
-          )
-        }
-
-        {
-          // Ẩn nút "Buy this course" khi khóa học đã được mua
-          !isCourseBought && (
+            
+            {hasDiscount && (
+              <div className="mb-2 px-2 py-1 bg-red-100 text-red-800 rounded inline-block text-xs font-semibold">
+                Special Offer! {discountPercentage}% discount applied
+              </div>
+            )}
+            
             <button
               onClick={onOpen}
               className="border-2 border-blue-600 text-blue-600 w-full py-2 text-sm font-bold rounded-md hover:bg-blue-50"
             >
-              {page === "left" ? "Buy this course" : "Contact Sales"}
+              {buttonText}
             </button>
-          )
-        }
+          </>
+        )}
       </div>
 
       <Modal isOpen={isOpen} onClose={onClose} isCentered>
@@ -231,11 +395,23 @@ const SingleAbsolute = ({ props }) => {
           <ModalHeader>{res?.course?.title}</ModalHeader>
           <ModalBody>
             <Text fontSize="lg" fontWeight="bold">
-              {courseName}
+              {res?.course?.title}
             </Text>
-            <Text fontSize="xl" color="blue.600" fontWeight="bold">
-              ${displayPrice}
-            </Text>
+
+            {hasDiscount ? (
+              <>
+                <Text fontSize="xl" color="blue.600" fontWeight="bold">
+                  ${displayPrice} <span className="line-through text-sm text-gray-400">${originalPrice}</span>
+                </Text>
+                <Text fontSize="sm" color="green.500" fontWeight="bold">
+                  {discountPercentage}% discount applied
+                </Text>
+              </>
+            ) : (
+              <Text fontSize="xl" color="blue.600" fontWeight="bold">
+                ${displayPrice}
+              </Text>
+            )}
 
             <Text mt={4} fontWeight="bold">
               Choose Payment Method:
@@ -246,38 +422,25 @@ const SingleAbsolute = ({ props }) => {
                 alt="Momo"
                 boxSize="50px"
                 onClick={() => handlePaymentMethodSelect("momo")}
+                cursor="pointer"
               />
               <Image
                 src="https://vinadesign.vn/uploads/images/2023/05/vnpay-logo-vinadesign-25-12-57-55.jpg"
                 alt="VNPay"
                 boxSize="50px"
                 onClick={() => handlePaymentMethodSelect("vnpay")}
+                cursor="pointer"
               />
               <Image
                 src="https://th.bing.com/th/id/OIP.wBKSzdf1HTUgx1Ax_EecKwHaHa?rs=1&pid=ImgDetMain"
                 alt="PayPal"
                 boxSize="50px"
                 onClick={() => handlePaymentMethodSelect("paypal")}
+                cursor="pointer"
               />
             </Box>
 
-            {paymentMethod === "momo" && (
-              <Box mt={4} textAlign="center">
-                <Image src={sectionImage} alt="QR Code" />
-                <Text fontSize="sm">
-                  Scan the QR code to complete your payment.
-                </Text>
-              </Box>
-            )}
-            {paymentMethod === "vnpay" && (
-              <Box mt={4} textAlign="center">
-                <Image src={sectionImage} alt="QR Code" />
-                <Text fontSize="sm">
-                  Scan the QR code to complete your payment.
-                </Text>
-              </Box>
-            )}
-            {paymentMethod === "paypal" && (
+            {paymentMethod && (
               <Box mt={4} textAlign="center">
                 <Image src={sectionImage} alt="QR Code" />
                 <Text fontSize="sm">

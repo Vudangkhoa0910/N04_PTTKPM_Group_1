@@ -24,14 +24,18 @@ const Enrollments = () => {
 
     const fetchEnrollments = async () => {
       try {
-        const response = await fetch(`http://localhost:5001/enrollments?userId=${userId}`, {
-          headers: {
-            "Content-Type": "application/json",
-            authorization: `Bearer ${token}`,
-          },
-        });
+        const response = await fetch(
+          `http://localhost:5001/enrollments?userId=${userId}`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              authorization: `Bearer ${token}`,
+            },
+          }
+        );
 
-        if (!response.ok) throw new Error(`Error ${response.status}: Failed to fetch enrollments`);
+        if (!response.ok)
+          throw new Error(`Error ${response.status}: Failed to fetch enrollments`);
 
         const data = await response.json();
         setEnrollments(data);
@@ -39,12 +43,15 @@ const Enrollments = () => {
         const courseIds = [...new Set(data.map((en) => en.courseId))];
         const coursesData = await Promise.all(
           courseIds.map(async (id) => {
-            const res = await fetch(`http://localhost:5001/videos/courseVideos/${id}`, {
-              headers: {
-                "Content-Type": "application/json",
-                authorization: `Bearer ${token}`,
-              },
-            });
+            const res = await fetch(
+              `http://localhost:5001/videos/courseVideos/${id}`,
+              {
+                headers: {
+                  "Content-Type": "application/json",
+                  authorization: `Bearer ${token}`,
+                },
+              }
+            );
 
             if (!res.ok) return null;
             const courseData = await res.json();
@@ -70,58 +77,57 @@ const Enrollments = () => {
   }, [userId, token]);
 
   return (
-    <div className="mt-32 min-h-screen flex flex-col">
+    <div style={{ marginTop: "100px" }}>
       <Navbar />
-      <div className="mb-32 container mx-auto px-4 flex-grow">
-        <h2 className="text-center text-2xl font-semibold text-gray-800 mb-6">User Enrollments</h2>
-        {loading && <p className="text-center text-gray-600">Loading...</p>}
-        {error && <p className="text-center text-red-500">Error: {error}</p>}
+      <div style={{ maxWidth: "80%", margin: "auto", padding: "30px", background: "#fff", borderRadius: "10px", boxShadow: "0 0 10px rgba(0,0,0,0.1)", marginBottom: "50px" }}>
+        <h2 style={{ textAlign: "center", color: "#333", marginBottom: "20px" }}>User Enrollments</h2>
+
+        {loading && <p style={{ textAlign: "center" }}>Loading...</p>}
+        {error && <p style={{ color: "red", textAlign: "center" }}>Error: {error}</p>}
 
         {enrollments.length > 0 ? (
-          <div className="overflow-x-auto">
-            <table className="w-full bg-white shadow-md rounded-lg overflow-hidden">
-              <thead className="bg-blue-600 text-white text-left">
-                <tr>
-                  <th className="py-3 px-5">Course</th>
-                  <th className="py-3 px-5">Price</th>
-                  <th className="py-3 px-5">Payment</th>
-                  <th className="py-3 px-5">Date</th>
-                </tr>
-              </thead>
-              <tbody>
-                {enrollments
-                  .filter((enrollment) => enrollment.userId._id === userId)
-                  .map((enrollment) => {
-                    const course = courses[enrollment.courseId] || {};
-                    return (
-                      <tr key={enrollment._id} className="border-b hover:bg-gray-100">
-                        <td className="py-3 px-5">{course.title}</td>
-                        <td className="py-3 px-5">${enrollment.price}</td>
-                        <td className="py-3 px-5 text-center">
-                          {paymentLogos[enrollment.paymentMethod] ? (
-                            <img
-                              src={paymentLogos[enrollment.paymentMethod]}
-                              alt={enrollment.paymentMethod}
-                              className="w-10 mx-5"
-                            />
-                          ) : (
-                            enrollment.paymentMethod
-                          )}
-                        </td>
-                        <td className="py-3 px-5">{new Date(enrollment.enrollmentDate).toLocaleDateString()}</td>
-                      </tr>
-                    );
-                  })}
-              </tbody>
-            </table>
-          </div>
+          <table style={{ width: "100%", borderCollapse: "collapse", borderRadius: "10px", overflow: "hidden" }}>
+            <thead>
+              <tr style={{ background: "#007bff", color: "#fff", textAlign: "center" }}>
+                <th style={{ padding: "12px", borderBottom: "2px solid #ddd" }}>Course</th>
+                <th style={{ padding: "12px", borderBottom: "2px solid #ddd" }}>Price</th>
+                <th style={{ padding: "12px", borderBottom: "2px solid #ddd", textAlign: "center"}}>Payment</th>
+                <th style={{ padding: "12px", borderBottom: "2px solid #ddd" }}>Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              {enrollments
+                .filter((enrollment) => enrollment.userId._id === userId)
+                .map((enrollment) => {
+                  const course = courses[enrollment.courseId] || {};
+                  return (
+                    <tr key={enrollment._id} style={{ background: "#f9f9f9", textAlign: "center" }}>
+                      <td style={{ padding: "12px", borderBottom: "1px solid #ddd" }}>{course.title}</td>
+                      <td style={{ padding: "12px", borderBottom: "1px solid #ddd" }}>${enrollment.price}</td>
+                      <td style={{ 
+                        padding: "12px", 
+                        borderBottom: "1px solid #ddd", 
+                        paddingLeft: "50px",
+                        textAlign: "right", 
+                        width: "150px" 
+                      }}>
+                        {paymentLogos[enrollment.paymentMethod] ? (
+                          <img src={paymentLogos[enrollment.paymentMethod]} alt={enrollment.paymentMethod} width="50px" />
+                        ) : (
+                          enrollment.paymentMethod
+                        )}
+                      </td>
+                      <td style={{ padding: "12px", borderBottom: "1px solid #ddd" }}>{new Date(enrollment.enrollmentDate).toUTCString()}</td>
+                    </tr>
+                  );
+                })}
+            </tbody>
+          </table>
         ) : (
-          <p className="text-center text-gray-600">No enrollments found.</p>
+          <p style={{ textAlign: "center" }}>No enrollments found.</p>
         )}
       </div>
-      <div className="mt-32">
-        <Footer />
-      </div>
+      <Footer />
     </div>
   );
 };

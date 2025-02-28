@@ -5,7 +5,9 @@ const { courseRoute } = require("./routes/courses.route");
 const { videoRoute } = require("./routes/videos.route");
 const instructorRoutes = require("./routes/instructor.route");
 const enrollRouter = require("./routes/enroll.route"); // Import đúng router
-
+const commentRouter = require("./routes/comments.route");
+const viewRoute = require("./routes/view.route");
+const discussionRoutes = require("./routes/discussion.route");
 const cors = require("cors");
 require("dotenv").config();
 const jwt = require("jsonwebtoken");
@@ -22,7 +24,9 @@ app.use("/courses", courseRoute);
 app.use("/videos", videoRoute);
 app.use("/instructors", instructorRoutes);
 app.use("/enrollments", enrollRouter);
-
+app.use("/comments", commentRouter);
+app.use("/views", viewRoute);
+app.use("/discussions", discussionRoutes);
 // Endpoint to regenerate token
 app.get("/regenerateToken", (req, res) => {
   const rToken = req.headers.authorization?.split(" ")[1];
@@ -36,7 +40,9 @@ app.get("/regenerateToken", (req, res) => {
     );
     res.status(201).json({ msg: "Token created", token });
   } catch (error) {
-    res.status(400).json({ msg: "Not a valid Refresh Token", error: error.message });
+    res
+      .status(400)
+      .json({ msg: "Not a valid Refresh Token", error: error.message });
   }
 });
 
