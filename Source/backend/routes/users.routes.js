@@ -8,7 +8,7 @@ const { BlackListModel } = require("../models/blacklist");
 const userRouter = express.Router();
 
 //give all user list
-// Access: admin
+// Access: adminê
 // EndPoint: /users/;
 // FRONTEND: when user/admin/teacher want to register in site;
 
@@ -254,8 +254,6 @@ userRouter.post("/addCourse/:courseId", auth, async (req, res) => {
   }
 
 });
-
-
 
 userRouter.get("/Teachme/:userId", async (req, res) => {
   try {
