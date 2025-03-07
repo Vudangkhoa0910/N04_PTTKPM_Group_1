@@ -15,6 +15,7 @@ import { useDisclosure } from "@chakra-ui/react";
 import sectionImage from "../../asset/pay.svg";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
+import { AiFillHeart, AiOutlineHeart } from "react-icons/ai"; // Add this import
 
 const SingleAbsolute = ({ props }) => {
   const [page, setPage] = useState("left");
@@ -40,6 +41,7 @@ const SingleAbsolute = ({ props }) => {
   const [enrollments, setEnrollments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [isFavorited, setIsFavorited] = useState(false);
 
   const fetchEnrollments = async () => {
     try {
@@ -305,17 +307,108 @@ const SingleAbsolute = ({ props }) => {
     return match ? match[1] : null;
   };
 
+  const checkIsFavorited = async () => {
+    if (!userId || !id || !token) return;
+    
+    try {
+      const response = await fetch(
+        `http://localhost:5001/favoritecourses/check/${userId}/${id}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      
+      if (!response.ok) {
+        throw new Error('Failed to check favorite status');
+      }
+      
+      const data = await response.json();
+      setIsFavorited(data.isFavorited);
+    } catch (error) {
+      console.error("Error checking favorite status:", error);
+    }
+  };
+
+  // Add toggle favorite function
+  const toggleFavorite = async (e) => {
+    e.stopPropagation(); // Prevent triggering other click events
+    
+    if (!userId || !token) {
+      onOpen(); // Reuse existing modal to prompt login
+      return;
+    }
+    
+    try {
+      if (isFavorited) {
+        // Remove from favorites
+        const response = await fetch(
+          `http://localhost:5001/favoritecourses/user/${userId}/course/${id}`,
+          {
+            method: "DELETE",
+            headers: {
+              "Content-Type": "application/json",
+              authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        
+        if (!response.ok) throw new Error('Failed to remove from favorites');
+        setIsFavorited(false);
+      } else {
+        // Add to favorites
+        const response = await fetch(
+          `http://localhost:5001/favoritecourses`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({ userId, courseId: id }),
+          }
+        );
+        
+        if (!response.ok) throw new Error('Failed to add to favorites');
+        setIsFavorited(true);
+      }
+    } catch (error) {
+      console.error("Error toggling favorite status:", error);
+    }
+  };
+
+  // Add effect to check favorite status when component mounts or when userId/id changes
+  useEffect(() => {
+    if (userId && id && token) {
+      checkIsFavorited();
+    }
+  }, [userId, id, token]);
+
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
 
   return (
     <div className="xl:border xl:border-gray-300 text-white xl:text-black xl:max-w-[800px] xl:shadow-lg shadow-neutral-800 xl:bg-white rounded-lg overflow-hidden">
-      <div>
+      <div className="relative">
         <Image
           src={img}
           className="w-full h-[300px] object-cover"
           alt="Course Thumbnail"
         />
+        {/* Add the favorite heart icon */}
+        <button
+          onClick={toggleFavorite}
+          className="absolute top-3 right-3 z-10 bg-white bg-opacity-70 rounded-full p-2 shadow-md transition-transform hover:scale-110"
+          aria-label={isFavorited ? "Remove from favorites" : "Add to favorites"}
+        >
+          {isFavorited ? (
+            <AiFillHeart size={24} color="#ff3040" /> // Filled heart when favorited
+          ) : (
+            <AiOutlineHeart size={24} color="#ff3040" /> // Outline heart when not favorited
+          )}
+        </button>
       </div>
 
       <div className="flex justify-around font-semibold text-base h-[48px] items-center border-b border-gray-300">

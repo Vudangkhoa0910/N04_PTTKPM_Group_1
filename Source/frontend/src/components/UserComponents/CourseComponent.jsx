@@ -2,6 +2,7 @@ import React from "react";
 import { Box, Heading, Stack, Wrap } from "@chakra-ui/react";
 import LandingPageCarousel from "../../Pages/LandingPageComponents/LandingPageCarousel";
 import InProgressCarousel from "./InProgressCarousel";
+import FavoriteCourseCarousel from "../../Pages/LandingPageComponents/FavoriteCourseCarousel";
 
 const CourseComponent = () => {
   return (
@@ -46,11 +47,10 @@ const CourseComponent = () => {
 
       <Stack spacing={4} mb={4}>
         <Heading as="h2" size="lg">
-          Top courses in Personal Development
+          Favorite Courses
         </Heading>
         <Wrap spacing={4}>
-          <LandingPageCarousel keyword="Personal Development" />{" "}
-          {/* Lọc khóa học có title chứa "Personal Development" */}
+          <FavoriteCourseCarousel />
         </Wrap>
       </Stack>
     </Box>
